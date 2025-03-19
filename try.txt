@@ -1,0 +1,12 @@
+<?php
+    $sql="SELECT * FROM excels_paths";
+    $result = mysqli_query($conn,$sql);
+    // if($result){
+    //     echo "Hello Data Caught";
+    // }
+    echo "<br>";
+    while($row=mysqli_fetch_assoc($result)){
+        echo $row['excel_path'],"<br>";
+    }
+    
+    ?>     

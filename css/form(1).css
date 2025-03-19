@@ -1,0 +1,35 @@
+.form-container {
+  /* background-color: #fff; */
+  padding: 20px;
+  border-radius: 10px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+  width: 300px;
+  margin: 0 auto;
+}
+.file-input {
+  display: none;
+}
+.custom-file-upload {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.radio-container {
+  text-align: left;
+}
+.radio-label {
+  display: inline-block;
+  margin-right: 10px;
+  color: white;
+}
+.submit-button {
+  background-color: #27ae60;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

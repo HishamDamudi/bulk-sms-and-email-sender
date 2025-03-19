@@ -1,0 +1,82 @@
+<?php
+include("db_connect.php");
+session_start(); // Start the session
+
+use SimpleExcel\SimpleExcel;
+use PHPMailer\PHPMailer\PHPMailer;
+require_once "PHPMailer/PHPMailer.php";
+require_once "PHPMailer/SMTP.php";
+require_once "PHPMailer/Exception.php";
+
+$mail = new PHPMailer();
+
+// ... (SMTP and email settings)
+
+require_once('SimpleExcel/SimpleExcel.php');
+
+$excel = new SimpleExcel('csv');
+
+$excel->parser->loadFile($_FILES['excelFile']['name']);
+
+$foo = $excel->parser->getField();
+
+$count = 1;
+$i = 0;
+
+while (count($foo) > $count) {
+    $roll = $foo[$count][0];
+    $name = $foo[$count][1];
+    $email = $foo[$count][2];
+    $mobile = $foo[$count][3];
+    $subject = $foo[$count][4];
+    $body = $foo[$count][5];
+
+    // Handle Email Logic
+    if ($_POST['operation'] == 'email') {
+        handleEmailLogic($mail, $name, $email, $subject, $body);
+    }
+
+    // Handle SMS Logic
+    if ($_POST['operation'] == 'sms') {
+        handleSMSLogic($mobile, $subject, $body);
+    }
+
+    $count++;
+}
+
+$fileUpload = false;
+$targetFile = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // ... (your file upload logic)
+
+    if ($fileUpload) {
+        // ... (your database interaction logic)
+        $_SESSION['upload_message'] = "File uploaded successfully as $newFileName";
+    }
+}
+
+function handleEmailLogic($mail, $name, $email, $subject, $body) {
+    // Email Settings
+    $mail->isHTML(true);
+    $mail->setFrom("damproject7@gmail.com", $name);
+    $mail->addAddress($email);
+    $mail->Subject = $subject;
+    $mail->Body = $body;
+
+    // Send email
+    if ($mail->send()) {
+        echo "Email sent to $email successfully.";
+        echo "<br>";
+    } else {
+        echo "Error sending email to $email: " . $mail->ErrorInfo;
+        echo "<br>";
+    }
+}
+
+function handleSMSLogic($mobile, $subject, $body) {
+    // Handle SMS Logic here based on $mobile, $subject, $body
+    echo "SMS Logic not implemented in this example.";
+    echo "<br>";
+}
+?>
